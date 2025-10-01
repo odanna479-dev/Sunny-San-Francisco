@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<cabeza>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="ancho=ancho-del-dispositivo, escala-inicial=1" />
+  <!-- Oculta el botón VR -->
+  <estilo>
+    cuerpo, html {
+      margen: 0;
+      relleno: 0;
+      ancho: 100%;
+      altura: 100%;
+      desbordamiento: oculto;
+    }
+    
+    .a-enter-vr-button { mostrar: ninguno !importante; }
+    
+    /* Estilos para la animación intro */
+    #intro-contenedor {
+      posición: fija;
+      arriba: 0;
+      izquierda: 0;
+      ancho: 100%;
+      altura: 100%;
+      color de fondo: #000;
+      índice z: 1000;
+      pantalla: flex;
+      justificar-contenido: centro;
+      alinear-elementos: centro;
+      animación: fadeInOut 4s entrada-salida gradual hacia adelante;
+      desbordamiento: oculto;
+    }
+    
+    #imagen-de-introducción {
+      ancho: 100%;
+      altura: 100%;
+      ajuste de objeto: cubierta; /* Llena todo el espacio manteniendo proporciones */
+      opacidad: 0;
+      animación: fadeImage 3s entrada-salida gradual hacia adelante;
+    }
+    
+    @keyframes fadeInOut {
+      0% { opacidad: 0; }
+      20% { opacidad: 1; }
+      80% { opacidad: 1; }
+      100% { opacidad: 0; visualización: ninguna; }
+    }
+    
+    @keyframes fadeImage {
+      0% { opacidad: 0; }
+      30% { opacidad: 1; }
+      70% { opacidad: 1; }
+      100% { opacidad: 0; }
+    }
+
+    /* Estilos para los botones de control */
+    #botones-de-control {
+      posición: fija;
+      abajo: 20px;
+      izquierda: 0;
+      ancho: 100%;
+      pantalla: flex;
+      justificar-contenido: centro;
+      espacio: 20px;
+      índice z: 1000;
+      /* inicialmente ocultos hasta que termine la intro */
+      opacidad: 0;
+      transición: opacidad 0,5s facilidad;
+    }
+    
+    .control-btn {
+      ancho: 50px;
+      altura: 50px;
+      radio del borde: 50%;
+      color de fondo: rgba(0, 0, 0, 0.7);
+      color: blanco;
+      borde: ninguno;
+      pantalla: flex;
+      justificar-contenido: centro;
+      alinear-elementos: centro;
+      tamaño de fuente: 20px;
+      cursor: puntero;
+      caja-sombra: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+    
+    .control-btn:activo {
+      transformar: escala(0.95);
+    }
+
+    #botonInicio {
+      pantalla: ninguna; /* Ocultamos el botón original */
+    }
+  </estilo>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  <!-- Font Awesome para íconos -->
+  <link rel="hoja de estilo" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</cabeza>
+<cuerpo>
+  <!-- Animación de intro -->
+  <div id="intro-contenedor">
+    <img id="intro-image" src="https://cdna.artstation.com/p/assets/images/images/025/138/408/large/nicholas-beecher-egx-card-frontflat.jpg?1584753245" alt="Introducción a la animación">
+  </div>
+
+  <!-- Botones de control fijos -->
+  <div id="botones de control">
+    <button id="play-pause-btn" class="control-btn"><i class="fas fa-pause"></i></button>
+    <button id="restart-btn" class="control-btn"><i class="fas fa-redo"></i></button>
+    <button id="mute-btn" class="control-btn"><i class="fas fa-volume-up"></i></button>
+  </div>
+
+  <una escena
+    vr-mode-ui="habilitado: falso"
+    permiso-de-orientación-del-dispositivo-ui="habilitado: falso"
+    mindar-image="imageTargetSrc: https://cdn.glitch.global/bfe1b9b7-e174-4950-8992-0b6372550948/targets.mind?v=1745254087564; filterMinCF: 0,001; filterBeta: 0,01;"
+    espacio de color="sRGB"
+    renderer="colorManagement: true, physicalCorrectLights"
+  >
+    <a-activos>
+      <video id="video0"
+             Fuente: https://cdn.glitch.global/bfe1b9b7-e174-4950-8992-0b6372550948/k1.mp4?v=1745254447073
+             precarga="auto" bucle reproduce en línea webkit-reproduce en línea crossorigin="anónimo">
+      </video>
+      <video id="video1"
+             src="https://cdn.glitch.me/bfe1b9b7-e174-4950-8992-0b6372550948/ab.mp4?v=1745255890599"
+             precarga="auto" bucle reproduce en línea webkit-reproduce en línea crossorigin="anónimo">
+      </video>
+    </a-activos>
+
+    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+    <!-- Marcador 0 -->
+    <a-entity id="target0" mindar-image-target="Índice de destino: 0">
+      <a-video id="plane0" src="#video0"></a-video>
+    </a-entidad>
+
+    <!-- Marcador 1 -->
+    <a-entity id="objetivo1" mindar-image-target="índice objetivo: 1">
+      <a-video id="plane1" src="#video1"></a-video>
+    </a-entidad>
+  </a-scene>
+
+  <div id="startButton" style="posición: fija; inferior: 20px; izquierda: 50%; transformación: translateX(-50%);
+       color de fondo: rgba(0,0,0,0.5); color: blanco; relleno: 10px 20px; radio del borde: 5px; índice z: 999;">
+  </div>
+
+  <guión>
+    // 1) Configuración de escala individual
+    configuraciones constantes = [
+      { vidId: 'video0', planeId: 'plane0', factor de escala: 1.32 },
+      { vidId: 'video1', planeId: 'plano1', factor de escala: 0.8 }
+    ];
+
+    // Variable para seguir el vídeo activo actualmente
+    deje que activeVideoId = null;
+
+    // 2) Al cargar metadatos, establecemos proporción y escalado
+    configuraciones.paraCada(({vidId, planeId, scaleFactor }) => {
+      constante vid = documento.getElementById(vidId);
+      constante plane = document.getElementById(planeId);
+
+      vid.addEventListener('metadatos cargados', () => {
+        // aspecto = ancho original / alto original
+        constante aspecto = vid.videoWidth / vid.videoHeight;
+        // Ponemos ancho = aspecto, alto = 1; luego escalamos uniformemente
+        plano.setAttribute('ancho', aspecto);
+        plano.setAttribute('altura', 1);
+        plano.setAttribute('escala', `${factorDeEscala} ${factorDeEscala} ${factorDeEscala}`);
+        // Y un pequeño offset en Z para evitar solapamientos
+        plano.setAttribute('posición', `0 0 0.02`);
+      });
+    });
+
+    // 3) Sistema de suavizado para reducir vibraciones
+    AFRAME.registerComponent('posición suave', {
+      esquema: {
+        factor: { type: 'number', default: 0.1 } // Ajusta entre 0.05-0.5 según necesites
+      },
+
+      init: función() {
+        este.targetPosition = nuevo TRES.Vector3();
+        esto.smoothedPosition = nuevo TRES.Vector3();
+        
+        // Escuchar el evento de actualización del marcador
+        este.el.addEventListener('targetFound', () => {
+          // Al encontrar un marcador, alineamos las posiciones para evitar saltos
+          este.smoothedPosition.copy(este.el.object3D.position);
+        });
+      },
+
+      marca: función() {
+        si (!this.el.object3D.visible) retorna;
+
+        // Guardar posición actual antes de que cambie
+        este.targetPosition.copy(este.el.object3D.position);
+
+        // Interpolar suavemente entre la posición actual y la nueva
+        este.smoothedPosition.lerp(este.targetPosition, este.data.factor);
+        
+        // Aplicar posición suavizada
+        este.el.object3D.position.copy(este.smoothedPosition);
+      }
+    });
+
+    // 4) Cuando arranca la escena, vinculamos comportamientos
+    document.querySelector('a-scene').addEventListener('renderstart', () => {
+      // Añadir componente de suavizado a los marcadores
+      document.querySelectorAll('[mindar-image-target]').forEach(target => {
+        target.setAttribute('posición suave', 'factor: 0.1');
+      });
+
+      // Configurar comportamiento de vídeos
+      configuraciones.paraCada(({vidId}, idx) => {
+        constante vid = documento.getElementById(vidId);
+        constante targetEl = document.querySelector(`a-entity[mindar-image-target="targetIndex: ${idx}"]`);
+        
+        targetEl.addEventListener('objetivoEncontrado', () => {
+          vid.reproducir();
+          activeVideoId = vidId; // Actualizar el vídeo activo
+          actualizarEstadosBotón(); // Actualizar estado de botones
+        });
+        
+        targetEl.addEventListener('objetivoPerdido', () => {
+          vid.pausa();
+          si (activeVideoId === vidId) {
+            activeVideoId = nulo; // Si se pierde el marcador activo, reiniciamos
+          }
+        });
+      });
+    });
+
+    // Activar audio automáticamente sin botón
+    documento.addEventListener('DOMContentLoaded', () => {
+      establecerTiempo de espera(() => {
+        // Activar audio para todos los vídeos
+        configuraciones.paraCada(({vidId}) => {
+          constante vid = documento.getElementById(vidId);
+          vid.muted = falso;
+        });
+      }, 1000); // Activamos después de 1 segundo
+    });
+
+    // Gestionar la animación de introducción
+    documento.addEventListener('DOMContentLoaded', () => {
+      const introContainer = document.getElementById('intro-container');
+      const controlButtons = document.getElementById('botones-de-control');
+      
+      // Ocultar la intro y mostrar los botones después de la animación (4 segundos)
+      establecerTiempo de espera(() => {
+        introContainer.style.display = 'ninguno';
+        controlButtons.style.opacity = '1'; // Mostrar botones con transición suave
+      }, 4000);
+    });
+
+    // Función para obtener el vídeo activo actual
+    función getActiveVideo() {
+      si (!activeVideoId) {
+        // Si no hay video activo, buscamos si hay algún marcador visible
+        para (sea i = 0; i < configs.length; i++) {
+          constante targetEl = document.querySelector(`a-entity[mindar-image-target="targetIndex: ${i}"]`);
+          si (objetivoEl && objetivoEl.objetivo3D.visible) {
+            activeVideoId = configs[i].vidId;
+            romper;
+          }
+        }
+      }
+      devolver activeVideoId ? document.getElementById(activeVideoId) : null;
+    }
+
+    // Función para actualizar estados de botones según el vídeo actual
+    función updateButtonStates() {
+      constante activeVideo = obtenerActiveVideo();
+      si (!activeVideo) retorna;
+
+      // Actualizar botón de reproducción/pausa
+      const playPauseBtn = document.getElementById('reproducir-pausa-btn');
+      playPauseBtn.innerHTML = activeVideo.paused ?
+        '<i class="fas fa-play"></i>' :
+        '<i class="fas fa-pause"></i>';
+
+      // Actualizar botón de mute
+      const muteBtn = document.getElementById('mute-btn');
+      muteBtn.innerHTML = activeVideo.muted ?
+        '<i class="fas fa-volume-mute"></i>' :
+        '<i class="fas fa-volume-up"></i>';
+    }
+
+    // Manejadores para los botones de control
+    document.getElementById('play-pause-btn').addEventListener('click', función() {
+      constante activeVideo = obtenerActiveVideo();
+      si (!activeVideo) retorna;
+
+      si (activeVideo.paused) {
+        activeVideo.reproducir();
+        esto.innerHTML = '<i class="fas fa-pause"></i>';
+      } demás {
+        activeVideo.pause();
+        esto.innerHTML = '<i class="fas fa-play"></i>';
+      }
+    });
+
+    document.getElementById('restart-btn').addEventListener('click', función() {
+      constante activeVideo = obtenerActiveVideo();
+      si (!activeVideo) retorna;
+      
+      activeVideo.tiempoActual = 0;
+      activeVideo.reproducir();
+      documento.getElementById('play-pause-btn').innerHTML = '<i class="fas fa-pause"></i>';
+    });
+
+    document.getElementById('mute-btn').addEventListener('click', función() {
+      constante activeVideo = obtenerActiveVideo();
+      si (!activeVideo) retorna;
+      
+      activeVideo.muted = !activeVideo.muted;
+      esto.innerHTML = activeVideo.muted ?
+        '<i class="fas fa-volume-mute"></i>' :
+        '<i class="fas fa-volume-up"></i>';
+    });
+  </script>
+</cuerpo>
+</html>
